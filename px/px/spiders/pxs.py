@@ -22,9 +22,9 @@ class PxsSpider(scrapy.Spider):
         pageCount = 100 + 11 + 1
         global url
         pageNum = 11
+        searchKey = 'woman'
         while pageNum < pageCount:
-            #url = 'https://api.500px.com/v1/photos?rpp=50&feature=editors&image_size%5B%5D=1&image_size%5B%5D=2&image_size%5B%5D=32&image_size%5B%5D=31&image_size%5B%5D=33&image_size%5B%5D=34&image_size%5B%5D=35&image_size%5B%5D=36&image_size%5B%5D=2048&image_size%5B%5D=4&image_size%5B%5D=14&sort=&include_states=true&include_licensing=true&formats=jpeg%2Clytro&only=&exclude=&personalized_categories=&rpp=50&page=' + str(pageNum)
-            url = 'https://api.500px.com/v1/photos/search?type=photos&term=woman&image_size%5B%5D=1&image_size%5B%5D=2&image_size%5B%5D=32&image_size%5B%5D=31&image_size%5B%5D=33&image_size%5B%5D=34&image_size%5B%5D=35&image_size%5B%5D=36&image_size%5B%5D=2048&image_size%5B%5D=4&image_size%5B%5D=14&include_states=true&formats=jpeg%2Clytro&include_tags=true&exclude_nude=true&rpp=50&page=' + str(pageNum)
+            url = 'https://api.500px.com/v1/photos/search?type=photos&term=' +  searchKey + '&image_size%5B%5D=1&image_size%5B%5D=2&image_size%5B%5D=32&image_size%5B%5D=31&image_size%5B%5D=33&image_size%5B%5D=34&image_size%5B%5D=35&image_size%5B%5D=36&image_size%5B%5D=2048&image_size%5B%5D=4&image_size%5B%5D=14&include_states=true&formats=jpeg%2Clytro&include_tags=true&exclude_nude=true&rpp=50&page=' + str(pageNum)
             yield scrapy.Request(
                 url, 
                 method='OPTIONS',
