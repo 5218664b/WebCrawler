@@ -64,10 +64,24 @@ class Dytt2(interface):
         movieDict = {}
         movieDict['moviePageUrl'] = response.url
         movieDict['movieName'] = response.xpath('//div[@class="title_all"]/h1/font/text()').extract()
-        movieDict['movieLink'] = response.xpath('//p/a/@href').extract()
-        if movieDict['movieLink'] == [] :
-            movieDict['movieLink'] = response.xpath('//table/tbody/tr/td//a/@href').extract()
-        with open(filePath,'a') as f:
-            f.write(str(movieDict['movieLink']).decode('unicode_escape')[3:-2] + '\n')
 
-        return movieDict
+        #magnet磁力链存储
+        magnetLinks = response.xpath('//p/a/@href').extract()
+        for magnetLink in magnetLinks:
+            if len(magnetLink) > 8 :
+                if magnetLink[0:6] == 'ftp://' or magnetLink[0:8] == 'magnet:?':
+                    movieDict['movieLink'] = magnetLink.replace('<br />','')
+                    with open(filePath,'a') as f:
+                        f.write(movieDict['movieLink'] + '\n')
+                    return movieDict
+
+        #ftp地址,有可能多个，取一个
+        ftpLinks = response.xpath('//table/tbody/tr/td//a/@href').extract()
+        for ftpLink in ftpLinks:
+            if len(ftpLink) > 8:
+                if ftpLink[0:6] == 'ftp://' or ftpLink[0:8] == 'magnet:?':
+                    movieDict['movieLink'] = ftpLink.replace('<br />','')
+                    with open(filePath,'a') as f:   
+                        f.write(movieDict['movieLink'] + '\n')
+                    return movieDict
+        return {}

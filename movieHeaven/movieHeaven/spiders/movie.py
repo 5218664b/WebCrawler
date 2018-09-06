@@ -5,10 +5,10 @@ import re
 import sys
 import requests
 from scrapy.conf import settings
-from customRule import *
 import customRule
 from movieHeaven.items import MovieheavenItem
 
+#scrapy crawl movie -o dy8item.json -s FEED_EXPORT_ENCODING=utf-8 
 class MovieSpider(scrapy.Spider):
     if sys.version_info.major < 3:
         reload(sys)
@@ -20,6 +20,7 @@ class MovieSpider(scrapy.Spider):
 
     urls = ['http://www.dytt8.net/html/gndy/jddy/20160320/50523.html',
             'http://www.dytt8.net/html/gndy/dyzz/list_23_1.html']
+
     methodNameList = ['get_page_count',
                       'set_request_url',
                       'get_request_url',
@@ -87,16 +88,20 @@ class MovieSpider(scrapy.Spider):
             )
 
     def get_movie_link(self,response):
-        index = response.meta['index']
-        className = self.classList[int(index)]
-        #第0号元素是类本身
-        classObj = self.searchDict[className][0]
-        methodObj = self.searchDict[className][4]
-        movieDict = methodObj(classObj(),response)
-
-        movieItem = MovieheavenItem()
-        movieItem['moviePageUrl'] = movieDict['moviePageUrl']
-        movieItem['movieName'] = movieDict['movieName']
-        movieItem['movieLink'] = movieDict['movieLink']
-        yield movieItem
+        title = response.xpath('//title/text()').extract()[0]
+        if title.find('您的访问出错了') == -1 and title.find('免费电影') == -1:
+            index = response.meta['index']
+            className = self.classList[int(index)]
+            #第0号元素是类本身
+            classObj = self.searchDict[className][0]
+            methodObj = self.searchDict[className][4]
+            movieDict = methodObj(classObj(),response)
+            if movieDict != {} :
+                movieItem = MovieheavenItem()
+                movieItem['moviePageUrl'] = movieDict['moviePageUrl']
+                movieItem['movieName'] = movieDict['movieName']
+                movieItem['movieLink'] = movieDict['movieLink']
+                yield movieItem
+        else:
+            pass
         
