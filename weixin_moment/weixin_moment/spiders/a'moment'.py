@@ -5,6 +5,7 @@ import re
 import sys
 from weixin_moment.items import WeixinMomentItem
 
+#scrapy crawl moment -o moment.json -s FEED_EXPORT_ENCODING=utf-8 
 class AmomentSpider(scrapy.Spider):
     reload(sys)
     sys.setdefaultencoding('utf-8')

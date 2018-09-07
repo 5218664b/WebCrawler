@@ -7,6 +7,7 @@ import requests
 from px.items import PxItem
 from scrapy.conf import settings 
 
+#scrapy crawl pxs -o pxs.json -s FEED_EXPORT_ENCODING=utf-8
 class PxsSpider(scrapy.Spider):
     if sys.version_info.major < 3:
         reload(sys)

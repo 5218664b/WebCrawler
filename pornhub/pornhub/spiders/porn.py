@@ -8,6 +8,7 @@ from pornhub.items import PornhubItem
 from scrapy.conf import settings
 from scrapy_splash import SplashRequest
 
+#scrapy crawl porn -o porn.json -s FEED_EXPORT_ENCODING=utf-8 
 class PornSpider(scrapy.Spider):
     if sys.version_info.major < 3:
         reload(sys)

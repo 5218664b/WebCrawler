@@ -7,6 +7,7 @@ import requests
 from novelDownload.items import NoveldownloadItem
 from scrapy.conf import settings
 
+#scrapy crawl novelDown -o novelDownload.json -s FEED_EXPORT_ENCODING=utf-8
 class NoveldownSpider(scrapy.Spider):
     if sys.version_info.major < 3:
         reload(sys)
