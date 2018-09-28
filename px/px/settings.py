@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import os
 # Scrapy settings for px project
 #
 # For simplicity, this file contains only settings considered important or
@@ -15,7 +15,7 @@ SPIDER_MODULES = ['px.spiders']
 NEWSPIDER_MODULE = 'px.spiders'
 
 COOKIE = {'_vwo_uuid': 'DBAF2318FACB08235080E62F93B5FE924', '_vwo_ds': '3%3Aa_0%2Ct_0%3A0%241529164517%3A3.16917445%3A%3A%3A3_0', '_vis_opt_s': '1%7C', 'amplitude_id500px.com': 'eyJkZXZpY2VJZCI6IjY5OWMwNWFhLTNiOTktNDk5Ny1iZmY3LWQyMzA4YjYwNDNhM1IiLCJ1c2VySWQiOm51bGwsIm9wdE91dCI6ZmFsc2UsInNlc3Npb25JZCI6MTUyOTIzNDk0ODcwMSwibGFzdEV2ZW50VGltZSI6MTUyOTIzNDk0ODcwMSwiZXZlbnRJZCI6OCwiaWRlbnRpZnlJZCI6Miwic2VxdWVuY2VOdW1iZXIiOjEwfQ', 'device_uuid': 'f7d766f5-7a2e-4891-bf95-e849539600c5', '_gat_unifiedTracker': '1', '__hssrc': '1', '_hpx1': 'BAh7C0kiD3Nlc3Npb25faWQGOgZFVEkiJTVmNjkyMWIxNTM4YzA2MGNkNDZkMTk2M2JmMTg4ODg5BjsAVEkiCWhvc3QGOwBGIg41MDBweC5jb21JIhl1c2Vfb25ib2FyZGluZ19tb2RhbAY7AEZUSSIYc3VwZXJfc2VjcmV0X3BpeDNscwY7AEZGSSIQX2NzcmZfdG9rZW4GOwBGSSIxdzZlRmZOaDZXbE90eTdUT0dHbytqN3MzaTl5Ky9HbDBIU01YZ0QxZmltMD0GOwBGSSIRcHJldmlvdXNfdXJsBjsARkkiDS9lZGl0b3JzBjsAVA%3D%3D--a16ca1e6dc4832437b1ec153f21aba879ae76c75', '_ga': 'GA1.2.1554153299.1529164505', '_gat': '1', '_vwo_uuid_v2': 'DBAF2318FACB08235080E62F93B5FE924|048a1549b4932bfae51817e36822b218', '_vis_opt_test_cookie': '1', '_gid': 'GA1.2.2074596523.1529164505', 'hubspotutk': 'd4ee4550408db7431e63c5c666660735', '__hstc': '133410001.d4ee4550408db7431e63c5c666660735.1529164526544.1529164526544.1529202990782.2', '_parsely_visitor': '{%22id%22:%22e07efba0-3245-4494-aaf7-6c1ff1cbe91e%22%2C%22session_count%22:1%2C%22last_session_ts%22:1529205475239}'}
-IMAGES_STORE = 'D:\\crawlFile\\500px'   # 图片存储路径
+IMAGES_STORE = os.path.abspath('.') + '/crawlImage/'   # 图片存储路径
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'px (+http://www.yourdomain.com)'

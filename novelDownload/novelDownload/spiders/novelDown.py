@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
+import os
 import json
 import re
 import sys
@@ -22,7 +23,7 @@ class NoveldownSpider(scrapy.Spider):
     #搜索关键词之后在网页上获取到的，注意前面加个问号
     searchKey = '?searchtype=articlename&searchkey=%B5%C1%C4%B9%B1%CA%BC%C7&Submit=+%CB%D1+%CB%F7+'
     #下载路径，需要修改为自己电脑的路径
-    downloadPath = 'D:/pachong/novelDownload/download/'
+    downloadPath = os.path.abspath('.') + '/download/'
 
     novelList = []
 
@@ -48,7 +49,6 @@ class NoveldownSpider(scrapy.Spider):
         )
     #解析搜索结果
     def parse_searchRest(self,response):
-        print str(response.css('tr .even a'))
         for nodeLink in response.css('tr .even a'):
             self.novelList.append(str(nodeLink.xpath('@href').extract())[25:-2])
 
@@ -80,7 +80,6 @@ class NoveldownSpider(scrapy.Spider):
         #获取总页数，这里有多的页，直接tr数量乘4
         endPageNum = pageNum + len(response.css('.novel_list').extract())*4
         fileName = self.downloadPath + str(novelItems['novelName']).decode('unicode_escape')[3:-2] + '.txt'
-        print fileName + '5555'
         with open(fileName, 'wb') as f:
             f.write(str(novelItems['novelName']).decode('unicode_escape')[3:-2])
         

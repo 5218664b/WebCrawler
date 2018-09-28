@@ -18,12 +18,13 @@ class PornSpider(scrapy.Spider):
     allowed_domains = ['pornhub.com']
     start_urls = ['www.baidu.com']
     fileName = 'pornhub.links'
+    searchKey = 'japan'
 
     def start_requests(self):
         currentPageNum = 1
         endPageNum = 5
         while currentPageNum < endPageNum:
-            url = 'https://www.pornhub.com/video/search?search=japan&page=' + str(currentPageNum)
+            url = 'https://www.pornhub.com/video/search?search=' + self.searchKey + '&page=' + str(currentPageNum)
             yield scrapy.Request(
                 url,
                 callback=self.parse_search_result,
@@ -44,15 +45,6 @@ class PornSpider(scrapy.Spider):
             yield pornhubItem
 
             url = 'https://www.pornhub.com' + str(link.xpath('@href').extract())[3:-2]
-            #splash_args = {
-            #'wait': '2',
-            #}
-            #yield SplashRequest(
-            #    url,
-            #    self.parse_video_link,
-            #    endpoint='render.html',
-            #    args=splash_args
-            #)
             yield scrapy.Request(
                 url,
                 callback=self.parse_video_link
@@ -60,7 +52,6 @@ class PornSpider(scrapy.Spider):
     
     def parse_video_link(self, response):
         pornhubItem = PornhubItem()
-        #pornhubItem['videoUrl'] = response.xpath('//source/@src').extract()
         scriptStr = str(response.xpath('//div[@id="player"]/script').extract())
         find720Str = '"quality":"720","videoUrl":"'
         find480Str = '"quality":"480","videoUrl":"'

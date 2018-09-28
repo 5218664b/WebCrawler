@@ -4,6 +4,7 @@ import json
 import re
 import sys
 import requests
+import os
 from scrapy.conf import settings
 import customRule
 from movieHeaven.items import MovieheavenItem
@@ -29,6 +30,7 @@ class MovieSpider(scrapy.Spider):
     classCount = dir(customRule).index('__builtins__')
     classList = dir(customRule)[0:classCount]
 
+    filePath = os.path.abspath('.') + '/movie.Links'
     #获取类和类的方法，将类作为key，方法数组作为value
     searchDict = {}
     for className in classList:
@@ -95,7 +97,7 @@ class MovieSpider(scrapy.Spider):
             #第0号元素是类本身
             classObj = self.searchDict[className][0]
             methodObj = self.searchDict[className][4]
-            movieDict = methodObj(classObj(),response)
+            movieDict = methodObj(classObj(),response,self.filePath)
             if movieDict != {} :
                 movieItem = MovieheavenItem()
                 movieItem['moviePageUrl'] = movieDict['moviePageUrl']

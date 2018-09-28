@@ -59,8 +59,7 @@ class Dytt2(interface):
         return map(lambda x: prefixStr + x, links)
         
     #获取电影链接
-    def get_movie_link(self,response):
-        filePath = 'D:/pachong/movieHeaven/movie.Links'
+    def get_movie_link(self,response,filePath):
         movieDict = {}
         movieDict['moviePageUrl'] = response.url
         movieDict['movieName'] = response.xpath('//div[@class="title_all"]/h1/font/text()').extract()
