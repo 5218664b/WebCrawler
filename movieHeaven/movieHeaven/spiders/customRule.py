@@ -10,7 +10,7 @@ class interface:
     def get_request_url(self,response):
         pass
     #获取电影链接
-    def get_movie_link(self,response):
+    def get_movie_link(self,response,filePath):
         pass
 #   IMDB评分8分以上影片300余部
 class Dytt1(interface):
@@ -34,7 +34,7 @@ class Dytt1(interface):
         return response.xpath('//p/a/@href').extract()
 
     #获取电影链接
-    def get_movie_link(self,response):
+    def get_movie_link(self,response,filePath):
         movieDict = {}
         movieDict['moviePageUrl'] = response.url
         movieDict['movieName'] = response.xpath('//div[@class="title_all"]/h1/font/text()').extract()
