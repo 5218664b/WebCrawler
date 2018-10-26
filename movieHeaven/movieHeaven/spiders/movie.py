@@ -6,7 +6,7 @@ import sys
 import requests
 import os
 from scrapy.conf import settings
-import customRule
+from movieHeaven.spiders import customRule
 from movieHeaven.items import MovieheavenItem
 
 #scrapy crawl movie -o dy8item.json -s FEED_EXPORT_ENCODING=utf-8 

@@ -8,6 +8,7 @@ from px.items import PxItem
 from scrapy.conf import settings 
 
 #scrapy crawl pxs -o pxs.json -s FEED_EXPORT_ENCODING=utf-8 
+#pip install fake-useragent 
 class PxsSpider(scrapy.Spider):
     if sys.version_info.major < 3:
         reload(sys)
@@ -20,9 +21,9 @@ class PxsSpider(scrapy.Spider):
     imgName = ''
     Gindex = 0
     def start_requests(self):
-        pageCount = 100 + 11 + 1
+        pageCount = 2 + 1 + 1
         global url
-        pageNum = 11
+        pageNum = 1
         searchKey = 'woman'
         while pageNum < pageCount:
             url = 'https://api.500px.com/v1/photos/search?type=photos&term=' +  searchKey + '&image_size%5B%5D=1&image_size%5B%5D=2&image_size%5B%5D=32&image_size%5B%5D=31&image_size%5B%5D=33&image_size%5B%5D=34&image_size%5B%5D=35&image_size%5B%5D=36&image_size%5B%5D=2048&image_size%5B%5D=4&image_size%5B%5D=14&include_states=true&formats=jpeg%2Clytro&include_tags=true&exclude_nude=true&rpp=50&page=' + str(pageNum)
@@ -34,9 +35,7 @@ class PxsSpider(scrapy.Spider):
                     'Connection' : 'keep-alive',
                     'Access-Control-Request-Method': 'GET',
                     'Origin' : 'https://500px.com',
-                    'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36',
                     'Access-Control-Request-Headers': 'x-csrf-token',
-                    'Access-Control-Request-Method': 'GET',
                     'Accept-Encoding' : 'gzip, deflate, br',
                     'Accept': '*/*',
                     'Accept-Language' : 'zh-CN,zh;q=0.9,en;q=0.8'
@@ -54,7 +53,6 @@ class PxsSpider(scrapy.Spider):
                 'Connection' : 'keep-alive',
                 'Accept' : 'application/json, text/javascript, */*; q=0.01',
                 'Origin' : 'https://500px.com',
-                'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36',
                 'Referer' : 'https://500px.com/editors',
                 'X-CSRF-Token' : '6tx8YGX7TPSYe/WLJ38xYw7fv3yG6S9ALFIksj3oe5Ipe/kcvYEWpzWwQUU/FQ/steg0oDgVRjQxcTMyALfx/w==',
                 'Accept-Encoding' : 'gzip, deflate, br',
