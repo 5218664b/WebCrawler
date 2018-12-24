@@ -11,4 +11,15 @@ import scrapy
 class QzonespiderItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    mood = scrapy.Field()
+    mood_tid = scrapy.Field()
+    mood_content = scrapy.Field()
+    mood_source_name = scrapy.Field()
+    mood_created_time = scrapy.Field()
+    mood_pics = scrapy.Field()
+    mood_like = scrapy.Field()
+    article = scrapy.Field()
+    photo_album = scrapy.Field()
+    message_board = scrapy.Field()
+    other = scrapy.Field()
+    friends = scrapy.Field()

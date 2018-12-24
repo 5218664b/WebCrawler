@@ -4,33 +4,16 @@ import time
 from selenium import webdriver
 import selenium.webdriver.support.ui as ui
 
-class SpiderMessage(object):
-    """ 功能：爬虫的参数信息（日志、说说、个人信息、好友四个爬虫共用）"""
-
+class qqMessage(object):
     def __init__(self):
-        self.s = requests.Session()
+        self.qq = ''  # 要爬的QQ
         self.account = ''  # 用来登录的QQ账号
         self.password = ''  # 用来登录的QQ密码
         self.gtk = None
+        self.newQQ = []  # 爬虫爬下来的QQ，准备加入待爬队列
+        self.timeout = None  # 超时时间
 
-class Changing(object):
-    """ 功能：更换QQ、更换Cookie """
-
-    def __init__(self, my_messages):
-        self.my_messages = my_messages
-
-    def changeCookie(self, message):
-        """ Cookie失效时进行更换Cookie """
-        account = message.account
-        password = message.password
-        cookie = GetCookie().getCookie(account, password)  # 根据QQ号和密码获取Cookie
-        if cookie:
-            message.s.cookies.update(cookie)
-            self.my_messages.my_cookies[account] = cookie
-        else:  # 如果获取失败，则从换一个QQ的Cookie
-            print "QQ的Cookie缺货啦！！！！！！！！！！"
-            exit()
-
+class QzoneMessage(object):
     def getGTK(self, cookie):
         """ 根据cookie得到GTK """
         hashes = 5381
@@ -38,7 +21,6 @@ class Changing(object):
             hashes += (hashes << 5) + ord(letter)
         return hashes & 0x7fffffff
 
-class GetCookie(object):
     def getCookie(self, account, password):
         """ 根据QQ号和密码获取cookie """
         failure = 0
@@ -46,7 +28,7 @@ class GetCookie(object):
             try:
                 browser = webdriver.PhantomJS()
                 wait = ui.WebDriverWait(browser, 10)
-                browser.get('http://qzone.qq.com/?s_url=http://user.qzone.qq.com/1813710279/')
+                browser.get('http://qzone.qq.com/?s_url=http://user.qzone.qq.com/1141802674/')
                 browser.switch_to_frame('login_frame')
                 wait.until(lambda browser: browser.find_element_by_id('switcher_plogin'))
                 plogin = browser.find_element_by_id('switcher_plogin')
@@ -63,7 +45,7 @@ class GetCookie(object):
                 time.sleep(1)
                 try:
                     browser.switch_to_frame('vcode')
-                    print 'Failed!----------------reason:该QQ首次登录Web空间，需要输入验证码！'
+                    print u'Failed!----------------reason:该QQ首次登录Web空间，需要输入验证码！'
                     break
                 except Exception:
                     pass
@@ -73,7 +55,7 @@ class GetCookie(object):
                     d = err.text
                     print account, d
                     if u'您输入的帐号或密码不正确' in d:
-                        print 'Failed!----------------reason:账号或者密码错误！'
+                        print u'Failed!----------------reason:账号或者密码错误！'
                         break
                     if u'网络繁忙' in d:
                         time.sleep(2)
@@ -89,11 +71,13 @@ class GetCookie(object):
                     #     '//*[@id="pageContent"]/div[1]/div[3]/div/div[2]/div[1]/div/div[2]/div/div[2]/a')
                     # btn.click()
                     cookie = {}
-                    for ck in browser.get_cookies():
+                    cookieStr = browser.get_cookies()
+                    print cookieStr
+                    for ck in cookieStr:
                         cookie[ck['name']] = ck['value']
                     browser.quit()
-                    print "Get the cookie of QQ:%s successfully!(共%d个键值对)" % (account, len(cookie))
-                    return cookie
+                    print u'Get the cookie of QQ:%s successfully!(共%d个键值对)' % (account, len(cookie))
+                    return [cookie, cookieStr]
             except Exception:
                 failure = failure + 1
             except KeyboardInterrupt, e:
