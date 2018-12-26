@@ -9,31 +9,29 @@ from qzonespider.items import QzonespiderItem
 from scrapy.conf import settings
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
-from public_method import QzoneMessage
-from public_method import qqMessage
 import json
 
-#scrapy crawl qzone -o qzone.json -s FEED_EXPORT_ENCODING=utf-8
-class QzoneSpider(scrapy.Spider):
+#scrapy crawl mood -o mood.json -s FEED_EXPORT_ENCODING=utf-8
+class MoodSpider(scrapy.Spider):
+    def __init__(self, *args,  **kwargs):
+        super(MoodSpider, self).__init__(**kwargs)
+        self.cookieStr = args[0]['cookie']
+        self.gtk = args[0]['gtk']
+
     if sys.version_info.major < 3:
         reload(sys)
         sys.setdefaultencoding('utf-8')
-
-    name = 'qzone'
+    
+    name = 'mood'
     allowed_domains = ['qq.com']
     start_urls = ['https://user.qzone.qq.com/1141802674']
 
     #账号
-    account = ''
-    #密码
-    password = ''
-    qm = QzoneMessage()
-    #获取cookie
-    [cookies, cookieStr] = qm.getCookie(account, password)
-    gtk = qm.getGTK(cookies)
+    account = '1141802674'
 
     def parse(self, response):
-        url = 'https://user.qzone.qq.com/proxy/domain/taotao.qq.com/cgi-bin/emotion_cgi_msglist_v6?uin=%s&pos=%d&num=20&g_tk=%s' % (self.account, 0, self.gtk)
+        url = 'https://user.qzone.qq.com/proxy/domain/taotao.qq.com/cgi-bin/emotion_cgi_msglist_v6\
+?uin=%s&pos=%d&num=20&g_tk=%s' % (self.account, 0, self.gtk)
         yield scrapy.Request(
             url
             ,method='GET'
@@ -49,7 +47,8 @@ class QzoneSpider(scrapy.Spider):
         page = 1
         totalPage = int(json_body['total']) / 20 + 1
         while page < totalPage:
-            url = 'https://user.qzone.qq.com/proxy/domain/taotao.qq.com/cgi-bin/emotion_cgi_msglist_v6?uin=%s&pos=%d&num=20&g_tk=%s' % (self.account, (page - 1) * 20, self.gtk)
+            url = 'https://user.qzone.qq.com/proxy/domain/taotao.qq.com/cgi-bin/emotion_cgi_msglist_v6\
+?uin=%s&pos=%d&num=20&g_tk=%s' % (self.account, (page - 1) * 20, self.gtk)
             yield scrapy.Request(
                 url
                 ,method='GET'

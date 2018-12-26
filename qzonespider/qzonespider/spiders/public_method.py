@@ -72,7 +72,6 @@ class QzoneMessage(object):
                     # btn.click()
                     cookie = {}
                     cookieStr = browser.get_cookies()
-                    print cookieStr
                     for ck in cookieStr:
                         cookie[ck['name']] = ck['value']
                     browser.quit()

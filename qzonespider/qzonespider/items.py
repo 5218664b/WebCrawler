@@ -18,8 +18,10 @@ class QzonespiderItem(scrapy.Item):
     mood_created_time = scrapy.Field()
     mood_pics = scrapy.Field()
     mood_like = scrapy.Field()
+
     article = scrapy.Field()
     photo_album = scrapy.Field()
-    message_board = scrapy.Field()
+    comment = scrapy.Field()
+
     other = scrapy.Field()
     friends = scrapy.Field()
