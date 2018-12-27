@@ -2,10 +2,9 @@
 
 import scrapy
 from scrapy.crawler import CrawlerProcess
-from qzonespider.spiders.comment import CommentSpider
-from qzonespider.spiders.mood import MoodSpider
 from qzonespider.spiders.public_method import QzoneMessage
 from qzonespider.spiders.public_method import qqMessage
+from scrapy.utils.project import get_project_settings
 
 #账号
 account = '1141802674'
@@ -16,7 +15,7 @@ qm = QzoneMessage()
 [cookies, cookieStr] = qm.getCookie(account, password)
 gtk = qm.getGTK(cookies)
 
-process = CrawlerProcess()
-process.crawl(CommentSpider, {'cookie' : cookieStr,'gtk':gtk})
-#process.crawl(MoodSpider, {'cookie' : cookieStr,'gtk':gtk})
+process = CrawlerProcess(get_project_settings())
+process.crawl('comment', {'cookie' : cookieStr,'gtk':gtk})
+#process.crawl('mood', {'cookie' : cookieStr,'gtk':gtk})
 process.start() # the script will block here until all crawling jobs are finished

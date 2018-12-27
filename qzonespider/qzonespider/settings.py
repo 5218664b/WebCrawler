@@ -19,7 +19,7 @@ NEWSPIDER_MODULE = 'qzonespider.spiders'
 #USER_AGENT = 'qzonespider (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -64,9 +64,9 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'qzonespider.pipelines.QzonespiderPipeline': 300,
-#}
+ITEM_PIPELINES = {
+    'qzonespider.pipelines.JsonExporterPipleline': 800,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
