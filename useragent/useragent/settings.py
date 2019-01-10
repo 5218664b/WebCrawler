@@ -51,7 +51,8 @@ ROBOTSTXT_OBEY = False
 #}
 
 #代理ip获取api接口
-PROXY_API = 'http://localhost:8080/get/'
+PROXY_API = 'http://localhost:8080/get/proxy'
+USERAGENT_API = 'http://localhost:8080/get/useragent'
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {

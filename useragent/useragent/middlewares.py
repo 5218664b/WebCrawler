@@ -24,6 +24,10 @@ class RandomUserAgentMiddleware(object):
         user_agent_random='Mozilla/4.0'
         request.headers.setdefault('User-Agent', user_agent_random) #这样就是实现了User-Agent的随即变换
 
+    def get_random_useragent(self):
+        settings = get_project_settings()
+        return requests.get(settings.get('USERAGENT_API')).text
+
 class ProxyMiddleWare(object):
     def __init__(self):
         super(ProxyMiddleWare, self).__init__()

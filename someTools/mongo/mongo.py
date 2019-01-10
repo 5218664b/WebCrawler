@@ -5,15 +5,13 @@ from scrapy.utils.project import get_project_settings
 
 class MongoTools(object):
     def __init__(self, mongo_uri=None, mongo_db=None):
-        settings = get_project_settings()
-        # 从配置文件中获取数据库连接信息
-        mongo_uri = settings.get('MONGO_URI')
-        mongo_db = settings.get('MONGO_DATABASE', 'items')
         if mongo_uri is None or mongo_db is None:
-            print u'请在setting中设置【MONGO_URI】【MONGO_DATABASE】'
-        else:
-            self.conn = pymongo.MongoClient(mongo_uri)
-            self.db = self.conn[mongo_db]
+            settings = get_project_settings()
+            # 从配置文件中获取数据库连接信息
+            mongo_uri = settings.get('MONGO_URI')
+            mongo_db = settings.get('MONGO_DATABASE', 'items')
+        self.conn = pymongo.MongoClient(mongo_uri)
+        self.db = self.conn[mongo_db]
 
     def close(self):
         if self.get_state():

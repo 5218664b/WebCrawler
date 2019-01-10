@@ -21,6 +21,7 @@ sys.path.append('../')
 
 from Util.GetConfig import config
 from Manager.ProxyManager import ProxyManager
+from Manager.UserAgentManager import UserAgentManager
 
 app = Flask(__name__)
 
@@ -49,14 +50,18 @@ api_list = {
 def index():
     return api_list
 
+@app.route('/get/useragent')
+def getAgent():
+    useragent = UserAgentManager().get()
+    return useragent if useragent else 'no useragent'
 
-@app.route('/get/')
+@app.route('/get/proxy/')
 def get():
     proxy = ProxyManager().get()
     return proxy if proxy else 'no proxy!'
 
 
-@app.route('/refresh/')
+@app.route('/refresh/proxy/')
 def refresh():
     # TODO refresh会有守护程序定时执行，由api直接调用性能较差，暂不使用
     # ProxyManager().refresh()
@@ -64,20 +69,20 @@ def refresh():
     return 'success'
 
 
-@app.route('/get_all/')
+@app.route('/get_all/proxy/')
 def getAll():
     proxies = ProxyManager().getAll()
     return proxies
 
 
-@app.route('/delete/', methods=['GET'])
+@app.route('/delete/proxy/', methods=['GET'])
 def delete():
     proxy = request.args.get('proxy')
     ProxyManager().delete(proxy)
     return 'success'
 
 
-@app.route('/get_status/')
+@app.route('/get_status/proxy/')
 def getStatus():
     status = ProxyManager().getNumber()
     return status
