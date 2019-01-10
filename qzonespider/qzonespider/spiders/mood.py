@@ -61,13 +61,12 @@ class MoodSpider(scrapy.Spider):
 
     def parse_mood(self, response):
         json_body = json.loads(str(response.text)[10:-2])
+        qzItems = QzonespiderItem()
+        json_body.pop('smoothpolicy')
+        qzItems['mood'] = json_body
+        yield qzItems
         for msg in json_body['msglist']:
-            qzItems = QzonespiderItem()
-            qzItems['mood_content'] = msg['content']
-            qzItems['mood_source_name'] = msg['source_name']
-            qzItems['mood_created_time'] = msg['created_time']
             tid = msg['tid']
-            qzItems['mood_tid'] = tid
             if msg.has_key('pic'):
                 mood_pics = []
                 for pic in msg['pic']:
@@ -95,21 +94,19 @@ class MoodSpider(scrapy.Spider):
                             ,meta={'tid':tid}
                             ,callback=self.parse_like
                         )
-                    qzItems['mood_pics'] = ','.join(mood_pics)
-            yield qzItems
 
     def parse_like(self,response):
         json_body = json.loads(str(response.text)[10:-2])
         tid = response.meta['tid']
         tmp = []
         if json_body.has_key('data'):
-            for like in json_body['data']['photos'][0]['likeList']:
-                likeList = {}
-                likeList['nick'] = like['nick']
-                likeList['uin'] = like['uin']
-                tmp.append(likeList)
-            qzItems = QzonespiderItem()
-            qzItems['mood_tid'] = tid
-            qzItems['mood_like'] = tmp
-            yield qzItems
+            if json_body['data']['photos'][0]['likeList'] != None:
+                for like in json_body['data']['photos'][0]['likeList']:
+                    likeList = {}
+                    likeList['nick'] = like['nick']
+                    likeList['uin'] = like['uin']
+                    tmp.append(likeList)
+                qzItems = QzonespiderItem()
+                qzItems['mood_like'] = {'tid': tid, 'like': tmp}
+                yield qzItems
 

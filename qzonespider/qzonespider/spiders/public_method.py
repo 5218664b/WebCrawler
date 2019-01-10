@@ -3,6 +3,7 @@ import requests
 import time
 from selenium import webdriver
 import selenium.webdriver.support.ui as ui
+from selenium.webdriver.chrome.options import Options
 
 class qqMessage(object):
     def __init__(self):
@@ -26,6 +27,10 @@ class QzoneMessage(object):
         failure = 0
         while failure < 2:
             try:
+                # chrome_options = Options()
+                # chrome_options.add_argument('--headless')
+                # chrome_options.add_argument('--disable-gpu')
+                # browser = webdriver.Chrome(executable_path="D:\\githubSync\WebCrawler\\qzonespider\\chromedriver_win32\\chromedriver.exe", options=chrome_options)
                 browser = webdriver.PhantomJS()
                 wait = ui.WebDriverWait(browser, 10)
                 browser.get('http://qzone.qq.com/?s_url=http://user.qzone.qq.com/1141802674/')

@@ -17,5 +17,5 @@ gtk = qm.getGTK(cookies)
 
 process = CrawlerProcess(get_project_settings())
 process.crawl('comment', {'cookie' : cookieStr,'gtk':gtk})
-#process.crawl('mood', {'cookie' : cookieStr,'gtk':gtk})
+process.crawl('mood', {'cookie' : cookieStr,'gtk':gtk})
 process.start() # the script will block here until all crawling jobs are finished

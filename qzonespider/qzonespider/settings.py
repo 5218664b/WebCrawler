@@ -14,6 +14,8 @@ BOT_NAME = 'qzonespider'
 SPIDER_MODULES = ['qzonespider.spiders']
 NEWSPIDER_MODULE = 'qzonespider.spiders'
 
+MONGO_URI = "mongodb://localhost:27017/"
+MONGO_DATABASE = "qzone"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'qzonespider (+http://www.yourdomain.com)'
@@ -52,9 +54,10 @@ ROBOTSTXT_OBEY = False
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'qzonespider.middlewares.QzonespiderDownloaderMiddleware': 543,
-#}
+# DOWNLOADER_MIDDLEWARES = {
+#     # 'qzonespider.middlewares.RandomUserAgentMiddleware': 543,
+#     # 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware':None, #这里要设置原来的scrapy的useragent为None，否者会被覆盖掉
+# }
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -66,6 +69,7 @@ ROBOTSTXT_OBEY = False
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'qzonespider.pipelines.JsonExporterPipleline': 800,
+    'qzonespider.pipelines.MongodbPipleline': 801,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

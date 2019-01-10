@@ -50,16 +50,7 @@ class CommentSpider(scrapy.Spider):
 
     def parse_comment(self, response):
         json_body = json.loads(str(response.text)[10:-2])['data']
-        for commentOne in json_body['commentList']:
-            commentItems = QzonespiderItem()
-            comment = {}
-            comment['id'] = commentOne['id']
-            comment['pubtime'] = commentOne['pubtime']
-            comment['uin'] = commentOne['uin']
-            comment['nickname'] = commentOne['nickname']
-            comment['htmlContent'] = commentOne['htmlContent']
-            comment['ubbContent'] = commentOne['ubbContent']
-            comment['replyList'] = commentOne['replyList']
-
-            commentItems['comment'] = comment
-            yield commentItems
+        commentItems = QzonespiderItem()
+        commentItems['comment'] = json_body['commentList']
+        yield commentItems
+            

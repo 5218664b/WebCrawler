@@ -6,7 +6,23 @@
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
+import random
+import scrapy
+import os
+import urllib2
+from scrapy.utils.project import get_project_settings
 
+class RandomUserAgentMiddleware(object):
+    def __init__(self, crawler):
+        super(RandomUserAgentMiddleware, self).__init__()
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(crawler)
+
+    def process_request(self, request, spider):
+        user_agent_random='Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR 2.0.50727)'
+        request.headers.setdefault('User-Agent', user_agent_random) #这样就是实现了User-Agent的随即变换
 
 class QzonespiderSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
