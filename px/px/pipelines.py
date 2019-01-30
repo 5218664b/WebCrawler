@@ -7,6 +7,7 @@
 
 import scrapy
 import time
+import os
 from scrapy.pipelines.images import ImagesPipeline
 from scrapy.exceptions import DropItem
 
@@ -15,6 +16,15 @@ class PxPipeline(object):
         return item
 
 class MyImagesPipeline(ImagesPipeline):
+    def __init__(self, store_uri, download_func=None, settings=None):
+        ImagesPipeline.__init__(self, store_uri, download_func, settings)
+        file_path = './crawlImage/'
+        dir_list = os.listdir(file_path)
+        dir_list1 = [str(dir).split('-')[1] for dir in dir_list]
+        self.file_time =  time.strftime("./%Y%m%d-0",time.localtime())
+        if os.path.exists(os.path.abspath(file_path + self.file_time)):
+            self.file_time = self.file_time[:-1] + str(int(max(dir_list1))+1)
+
     #下载图片
     def get_media_requests(self, item, info):
         for image_url in item['imgUrl']:
@@ -26,7 +36,7 @@ class MyImagesPipeline(ImagesPipeline):
         item = request.meta['item']
         imgName = item['imgName']
         imgIndex = request.meta['imgIndex']
-        down_file_name = '{0}/{1}'.format(time.strftime("%Y-%m-%d",time.localtime()), imgName[imgIndex])
+        down_file_name = '{0}/{1}'.format(self.file_time, imgName[imgIndex])
         return down_file_name
 
     #获取图片存储路径
