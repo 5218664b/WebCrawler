@@ -6,7 +6,7 @@ import sys
 import requests
 from pornhub.items import PornhubItem
 from scrapy.conf import settings
-from scrapy_splash import SplashRequest
+# from scrapy_splash import SplashRequest
 
 #scrapy crawl porn -o porn.json -s FEED_EXPORT_ENCODING=utf-8 
 class PornSpider(scrapy.Spider):
@@ -18,13 +18,14 @@ class PornSpider(scrapy.Spider):
     allowed_domains = ['pornhub.com']
     start_urls = ['www.baidu.com']
     fileName = 'pornhub.links'
-    searchKey = 'japan'
+    searchKey = 'japanese wife'
 
     def start_requests(self):
         currentPageNum = 1
-        endPageNum = 5
+        endPageNum = 2
         while currentPageNum < endPageNum:
-            url = 'https://www.pornhub.com/video/search?search=' + self.searchKey + '&page=' + str(currentPageNum)
+            url = 'https://jp.pornhub.com/video/search?search=' + self.searchKey + '&page=' + str(currentPageNum)
+            # url = 'https://jp.pornhub.com/video'
             yield scrapy.Request(
                 url,
                 callback=self.parse_search_result,
