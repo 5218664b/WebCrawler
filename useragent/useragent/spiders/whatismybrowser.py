@@ -6,6 +6,7 @@ from scrapy.link import Link
 from useragent.items import UseragentItem
 import re
 
+#scrapy crawl whatismybrowser -o whatismybrowser.json -s FEED_EXPORT_ENCODING=utf-8
 class WhatismybrowserSpider(CrawlSpider):
     name = 'whatismybrowser'
     allowed_domains = ['whatismybrowser.com']
@@ -29,7 +30,6 @@ class WhatismybrowserSpider(CrawlSpider):
         tmp = []
         for link in links:
             tmp.append(link.text)
-            print link.text
         useragentItem = UseragentItem()
         useragentItem['useragent'] = tmp
         yield useragentItem

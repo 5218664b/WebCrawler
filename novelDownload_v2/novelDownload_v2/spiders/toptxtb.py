@@ -26,7 +26,7 @@ class ToptxtbSpider(CrawlSpider):
     searchDomain = '/modules/article/search.php?'
     #搜索关键词之后在网页上获取到的，注意前面加个问号
     searchType = 'searchtype=articlename&'
-    searchKey = 'searchkey=%B7%B2%C8%CB&action=login&button=%CB%D1+%CB%F7'
+    searchKey = 'searchkey=%B7%B2%C8%CB&action=login&submit=%26%23160%3B%CB%D1%26%23160%3B%26%23160%3B%CB%F7%26%23160%3B'
     #下载路径，需要修改为自己电脑的路径
     downloadPath = os.path.abspath('.') + '/download/'
     start_urls = [

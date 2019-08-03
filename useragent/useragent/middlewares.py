@@ -21,9 +21,11 @@ class RandomUserAgentMiddleware(object):
         return cls(crawler)
 
     def process_request(self, request, spider):
+        #user_agent_random=self.get_random_useragent()
         user_agent_random='Mozilla/4.0'
         request.headers.setdefault('User-Agent', user_agent_random) #这样就是实现了User-Agent的随即变换
 
+    '''调用http接口获取useragent'''
     def get_random_useragent(self):
         settings = get_project_settings()
         return requests.get(settings.get('USERAGENT_API')).text
@@ -36,7 +38,7 @@ class ProxyMiddleWare(object):
     def process_request(self,request, spider):
         '''对request对象加上proxy'''
         proxy = 'http://' + self.get_random_proxy()
-        if proxy != '1' :
+        if proxy != 'http://' :
             print("this is request ip:"+proxy)
             request.meta['proxy'] = proxy
  
@@ -53,7 +55,7 @@ class ProxyMiddleWare(object):
         return response
  
     def get_random_proxy(self):
-        '''随机读取proxy'''
+        '''调用http接口获取proxy ip'''
         settings = get_project_settings()
         return requests.get(settings.get('PROXY_API')).text
 
