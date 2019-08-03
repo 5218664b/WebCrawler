@@ -26,3 +26,9 @@ qzone.qq.com
     scrapy crawl pxs -o pxs.json -s FEED_EXPORT_ENCODING=utf-8 
 
 运行命令都在spilders/xxx.py文件的class上面写着
+
+### 3.项目创建备注
+    #无需创建文件夹
+    scrapy startproject sina
+    scrapy genspider sinaSpider sina.com
+    

@@ -6,6 +6,7 @@ from movieHeaven_v2.items import MovieheavenV2Item
 import sys
 import os
 
+# scrapy crawl movie -o dy8item.json -s FEED_EXPORT_ENCODING=utf-8
 class MovieSpider(CrawlSpider):
     if sys.version_info.major < 3:
         reload(sys)
