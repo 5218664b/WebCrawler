@@ -101,3 +101,22 @@ class PornhubDownloaderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+from scrapy.http import Request,FormRequest,HtmlResponse
+from ghost import Ghost
+
+class WebkitDownloader(object):
+    def process_request(self,request,spider):
+        if str(request.url).find("search") == -1:
+            if(type(request) is not FormRequest):
+                ghost = Ghost()
+                session = ghost.start()
+                print(request.url)
+                session.open(request.url, timeout=20)
+                
+                result,resource = session.evaluate('document.documentElement.innerHTML')
+                #保留会话到爬虫，用以在爬虫里面执行js代码
+                spider.webkit_session = session
+                renderedBody = str(result.toUtf8())
+                #返回rendereBody就是执行了js后的页面
+                return HtmlResponse(request.url,body=renderedBody)

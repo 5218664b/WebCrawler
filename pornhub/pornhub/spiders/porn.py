@@ -5,32 +5,34 @@ import re
 import sys
 import requests
 from pornhub.items import PornhubItem
-from scrapy.conf import settings
-# from scrapy_splash import SplashRequest
 
-#scrapy crawl porn -o porn.json -s FEED_EXPORT_ENCODING=utf-8 
+'''
+python 2.7
+pip install --user PyQt4-4.11.4-cp27-cp27m-win_amd64.whl
+pip install Ghost.py
+'''
+
+#    scrapy crawl porn -o porn.json -s FEED_EXPORT_ENCODING=utf-8 
 class PornSpider(scrapy.Spider):
-    if sys.version_info.major < 3:
-        reload(sys)
-        sys.setdefaultencoding('utf-8')
+    def __init__(self):
+        self.webkit_session = None
 
     name = 'porn'
-    allowed_domains = ['pornhub.com']
     start_urls = ['www.baidu.com']
     fileName = 'pornhub.links'
-    searchKey = 'japanese wife'
+    searchKey = 'japanese'
 
     def start_requests(self):
         currentPageNum = 1
         endPageNum = 2
         while currentPageNum < endPageNum:
-            url = 'https://jp.pornhub.com/video/search?search=' + self.searchKey + '&page=' + str(currentPageNum)
-            # url = 'https://jp.pornhub.com/video'
+            url = 'https://www.pornhub.com/video/search?search=' + self.searchKey + '&page=' + str(currentPageNum)
+            #url = 'https://jp.pornhub.com/video'
             yield scrapy.Request(
                 url,
                 callback=self.parse_search_result,
                 headers={
-                    'Cookie' : 'FastPopSessionRequestNumber=11; FPSRN=5; ua=a54eb83090ed984332f4eca22d3ec5e4; platform=pc; bs=s1uhrhm327ql445dyccz9xdmdspt6i04; ss=181406473308429550; RNLBSERVERID=ded6696; FastPopSessionRequestNumber=9; FPSRN=4',
+                    'Cookie' : 'ua=5eaddbe64bb311a7ba788adfd9ffdfcb; bs=jps337ohz67g0q842m9vstklwrprryr9; ss=385066655867412139; RNLBSERVERID=ded6094; platform_cookie_reset=pc; platform=pc; RNKEY=1587959*1617373:4268689879:419590820:1; lang=en',
                     'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36'
                 }
             )
@@ -53,28 +55,21 @@ class PornSpider(scrapy.Spider):
     
     def parse_video_link(self, response):
         pornhubItem = PornhubItem()
-        scriptStr = str(response.xpath('//div[@id="player"]/script').extract())
-        find720Str = '"quality":"720","videoUrl":"'
-        find480Str = '"quality":"480","videoUrl":"'
-        find240Str = '"quality":"240","videoUrl":"'
-
-        ret720 = scriptStr.find(find720Str)
-        ret480 = scriptStr.find(find480Str)
-        ret240 = scriptStr.find(find240Str)
-
-        if ret720 > 0:
-            startIndex = ret720 + len(find720Str)
-            endIndex = scriptStr.find('"',startIndex)
-        elif ret480 > 0:
-            startIndex = ret480 + len(find480Str)
-            endIndex = scriptStr.find('"',startIndex)
-        elif ret240 > 0:
-            startIndex = ret240 + len(find240Str)
-            endIndex = scriptStr.find('"',startIndex)
+        
+        quality_240p  = self.webkit_session.evaluate('quality_240p')
+        quality_480p  = self.webkit_session.evaluate('quality_480p')
+        quality_720p  = self.webkit_session.evaluate('quality_720p')
+        quality_1080p  = self.webkit_session.evaluate('quality_1080p')
+        
+        if quality_1080p[0] != None:
+            pornhubItem['videoUrl'] = str(quality_1080p[0])
+        elif quality_720p[0] != None:
+            pornhubItem['videoUrl'] = str(quality_720p[0])
+        elif quality_480p[0] != None:
+            pornhubItem['videoUrl'] = str(quality_480p[0])
         else:
-            return
-
-        pornhubItem['videoUrl'] = scriptStr[startIndex:endIndex]
+            pornhubItem['videoUrl'] = str(quality_240p[0])
         yield pornhubItem
+        
         with open(self.fileName,'a') as f:
-            f.write(scriptStr[startIndex:endIndex].replace('\\','') + '\n')
+            f.write(pornhubItem['videoUrl']+ '\n')

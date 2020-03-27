@@ -16,11 +16,12 @@ NEWSPIDER_MODULE = 'pornhub.spiders'
 
 #SPLASH_URL = 'http://181.215.242.224:8050'
 #
-#DOWNLOADER_MIDDLEWARES = {
+DOWNLOADER_MIDDLEWARES = {
 #    'scrapy_splash.SplashCookiesMiddleware': 723,
 #    'scrapy_splash.SplashMiddleware': 725,
 #    'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
-#}
+    'pornhub.middlewares.WebkitDownloader': 543
+}
 #
 #SPIDER_MIDDLEWARES = {
 #    'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
