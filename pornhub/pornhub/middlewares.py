@@ -104,15 +104,21 @@ class PornhubDownloaderMiddleware(object):
 
 from scrapy.http import Request,FormRequest,HtmlResponse
 from ghost import Ghost
+import logging
+import sys
 
 class WebkitDownloader(object):
     def process_request(self,request,spider):
         if str(request.url).find("search") == -1:
             if(type(request) is not FormRequest):
-                ghost = Ghost()
+                default = {'download_images' : False}
+                ghost = Ghost(
+                    log_level=logging.ERROR,
+                    log_handler=logging.StreamHandler(sys.stderr),
+                    plugin_path=['/usr/lib/mozilla/plugins', ],
+                    defaults=default,)
                 session = ghost.start()
-                print(request.url)
-                session.open(request.url, timeout=20)
+                session.open(request.url, timeout=40)
                 
                 result,resource = session.evaluate('document.documentElement.innerHTML')
                 #保留会话到爬虫，用以在爬虫里面执行js代码
