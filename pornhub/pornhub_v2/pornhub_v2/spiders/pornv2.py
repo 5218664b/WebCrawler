@@ -25,16 +25,21 @@ class Pornv2Spider(scrapy.Spider):
                 url,
                 callback=self.parse_search_result,
                 headers={
-                    'Cookie' : 'bs=p6za8azsjwg9ijyn970f8vgx3ehieuc4; ss=430400793297104506; ua=db71e63d841d64be86149f315e465d5f; platform_cookie_reset=pc; platform=pc; RNKEY=1447123*1687583:3567443335:1032885732:1; RNLBSERVERID=ded6942',
+                    'Cookie' : 'ua=5eaddbe64bb311a7ba788adfd9ffdfcb; bs=jps337ohz67g0q842m9vstklwrprryr9; ss=385066655867412139; RNLBSERVERID=ded6094; lang=en; platform_cookie_reset=pc; platform=pc; RNKEY=1170583*1420697:1654534310:2344856441:1',
                     'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36'
                 }
             )
             currentPageNum = currentPageNum + 1
 
     def parse_search_result(self,response):
-        links = response.xpath('//div[@class="img fade fadeUp videoPreviewBg"]/a')
-        for link in links:
-            url = 'https://www.pornhub.com' + str(link.xpath('@href').extract())[3:-2]
+        videoItems = response.xpath('//li[contains(@class, "pcVideoListItem  js-pop videoblock videoBox")]')
+
+        for videoItem in videoItems:
+            duration = videoItem.xpath('.//var[@class="duration"]/text()').extract()
+            if int(str(duration[0]).split(':')[0]) < 40:
+                continue
+            link = videoItem.xpath('.//div[contains(@class, "img fade fadeUp")]/a')
+            url = 'https://www.pornhub.com' + str(link.xpath('@href').extract()[0])
 
             lua_script= '''
             function main(splash, args)

@@ -19,9 +19,11 @@ https://www.runoob.com/lua/lua-tutorial.html
         docker pull portainer/portainer
         docker volume create portainer_data
         docker run -d -p 9000:9000 -p 8000:8000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
+        访问地址：192.168.99.100:9000
     1.3 安装splash
         docker pull scrapinghub/splash
         docker run -d -it -p 8050:8050 scrapinghub/splash --max-timeout 3600
+        访问地址：192.168.99.100:8050
 2.安装scrapy-splash
     pip install scrapy-splash
 3.配置SPLASH的URL和代理
