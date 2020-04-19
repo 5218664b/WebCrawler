@@ -118,3 +118,26 @@ qzone.qq.com
     }
 
 #### 5.启动爬虫即可
+
+
+#### A.mongo工具使用
+
+    pip install pymongo
+
+    setting.py配置
+    MONGO_URI = "mongodb://192.168.99.100:27017/"
+    MONGO_DATABASE = "pornlink"
+
+    在使用页面导入库
+    import sys
+    import os
+    sys.path.append(os.path.abspath('../../someTools'))
+    from mongo.mongo import MongoTools
+
+    初始化实例
+    def __init__(self):
+        self.mt = MongoTools()
+
+    使用
+    self.mt.find('document', {'condition','condition'})
+    self.mt.insert_one('document', {'key, 'value})
