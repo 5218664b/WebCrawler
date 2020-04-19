@@ -14,6 +14,8 @@ BOT_NAME = 'pornhub_v2'
 SPIDER_MODULES = ['pornhub_v2.spiders']
 NEWSPIDER_MODULE = 'pornhub_v2.spiders'
 
+MONGO_URI = "mongodb://192.168.99.100:27017/"
+MONGO_DATABASE = "pornlink"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'pornhub_v2 (+http://www.yourdomain.com)'

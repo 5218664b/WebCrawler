@@ -68,7 +68,7 @@ DOWNLOADER_MIDDLEWARES = {
 #    'scrapy.extensions.telnet.TelnetConsole': None,
 #}
 
-MONGO_URI = "mongodb://192.168.99.100:32777/"
+MONGO_URI = "mongodb://192.168.99.100:27017/"
 MONGO_DATABASE = "proxy"
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
