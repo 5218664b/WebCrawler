@@ -22,7 +22,7 @@ class Pornv2Spider(scrapy.Spider):
     name = 'pornv2'
     start_urls = ['www.baidu.com']
     fileName = 'pornhub.links'
-    searchKey = u'japan1'
+    searchKey = '%E7%9F%B3%E5%8E%9F%E8%8E%89%E5%A5%88'
     duration_less_num = 0
     total_num = 0
 
