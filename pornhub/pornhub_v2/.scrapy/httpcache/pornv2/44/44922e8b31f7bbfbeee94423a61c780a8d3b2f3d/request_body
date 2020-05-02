@@ -1,0 +1,15 @@
+{
+    "cookies": [], 
+    "headers": {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", 
+        "Accept-Language": "en", 
+        "User-Agent": "Scrapy/1.6.0 (+https://scrapy.org)"
+    }, 
+    "images": 0, 
+    "lua_source": "\n            function main(splash, args)\n                splash:go(splash.args.url)\n                splash:wait(1)\n                splash:runjs([[\n                    test = function()\n                    {\n                        if(typeof(itemsCount) == 'undefined')\n                            return 1;\n                        var u = $j('#videoPlaylist');\n                        if (u.hasClass('stopLazyload'))\n                            return 1;\n                        var t = $j('li.videoBox', u).length;\n                        if (t >= (itemsCount-10))\n                            return 1;\n                        var a = window.pageYOffset\n                        , i = (window.innerHeight || document.documentElement.clientHeight) + a\n                        , l = document.querySelectorAll('#videoPlaylist li')\n                        , o = l[l.length - 1];\n                        window.scrollTo(0, o.offsetTop+300);\n                        return o.offsetTop;\n                    }\n                ]])\n                local i = 0\n                while(true) do\n                    local tmp = splash:evaljs(\"test()\")\n                    if(tmp==1 or i==80) then\n                        splash:wait(1)\n                        break\n                    end\n                    splash:wait(1)\n                    i = i + 1\n                end\n                return splash:html()\n            end\n            ", 
+    "proxy": "socks5://192.168.99.1:10820", 
+    "resource_timeout": 1, 
+    "timeout": 250, 
+    "url": "https://www.pornhub.com/video/search?search=%E7%9F%B3%E5%8E%9F%E8%8E%89%E5%A5%88&page=1", 
+    "wait": 1
+}

@@ -1,0 +1,15 @@
+{
+    "cookies": [], 
+    "headers": {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", 
+        "Accept-Language": "en", 
+        "Referer": "https://www.pornhub.com/video/search?search=%E7%9F%B3%E5%8E%9F%E8%8E%89%E5%A5%88&page=1", 
+        "User-Agent": "Scrapy/1.6.0 (+https://scrapy.org)"
+    }, 
+    "images": 0, 
+    "lua_source": "\n            function main(splash, args)\n                splash:go(splash.args.url)\n                find_quality = {\"quality_240p\", \"quality_480p\", \"quality_720p\", \"quality_1080p\"}\n                video_url = \"\"\n                for i,v in ipairs(find_quality) do\n                    ok ,e = pcall(function() video_url = splash:evaljs(v) end)\n                    if not ok then\n                        break\n                    end\n                end\n                title = splash:evaljs(\"document.title\")\n                return{\n                    out_title = title,\n                    out_video_url = video_url,\n                    out_e = e\n                }\n            end\n            ", 
+    "proxy": "socks5://192.168.99.1:10820", 
+    "resource_timeout": 1, 
+    "timeout": 240, 
+    "url": "https://www.pornhub.com/view_video.php?viewkey=ph5caa1c758029c"
+}
