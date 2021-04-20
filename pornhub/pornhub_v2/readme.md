@@ -35,8 +35,8 @@ https://docs.scrapy.org/en/latest/topics/selectors.html
 
 ##### 1.3 安装splash
 
-        docker pull scrapinghub/splash
-        docker run -d -it -p 8050:8050 scrapinghub/splash --max-timeout 3600
+        docker pull hub.c.163.com/marquisthunder/splash:tianyancha
+        docker run -d -it -p 8050:8050 hub.c.163.com/marquisthunder/splash:tianyancha --max-timeout 3600
         访问地址：192.168.99.100:8050
 
 #### 2.安装scrapy-splash
